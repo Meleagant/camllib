@@ -63,6 +63,15 @@ clean:
 	/bin/rm -f *.aux *.bbl *.blg *.dvi *.pdf *.log *.toc *.idx *.ilg *.ind ocamldoc*.tex ocamldoc.sty
 	/bin/rm -fr html
 
+dbuild: clean
+	dune build
+
+duninstall:
+	dune uninstall
+
+dinstall: duninstall
+	dune install
+
 wc: $(SRC)
 	wc $^
 
