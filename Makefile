@@ -34,7 +34,7 @@ all: byte opt prof
 
 byte: $(MLMODULES:%=%.cmi) camllib.cma
 opt: $(MLMODULES:%=%.cmx) camllib.cmxa
-prof: $(MLMODULES:%=%.p.cmx) camllib.p.cmxa
+prof: cmxclean $(MLMODULES:%=%.p.cmx) camllib.p.cmxa
 
 camllib.cma: $(MLMODULES:%=%.cmo)
 	$(OCAMLC) $(OCAMLFLAGS) -a $^ -o $@
@@ -43,7 +43,7 @@ camllib.cmxa: $(MLMODULES:%=%.cmx)
 	$(OCAMLOPT) $(OCAMLOPTFLAGS) -a $^ -o $@
 
 camllib.p.cmxa: $(MLMODULES:%=%.p.cmx)
-	$(OCAMLOPT) -p $(OCAMLOPTFLAGS) -a $^ -o $@
+	$(OCAMLOPTP) -P a $(OCAMLOPTFLAGS) -a $^ -o $@
 
 install: $(FILES_TOINSTALL)
 	$(OCAMLFIND) remove $(PKG-NAME)
@@ -54,6 +54,9 @@ uninstall:
 
 distclean: clean
 	/bin/rm -f Makefile.depend TAGS
+
+cmxclean:
+	/bin/rm -rf *.cmx
 
 clean:
 	/bin/rm -f *.cm[ioxat] *.cmti *.o *.a *.cmxa *.annot *.html *.ps *.pdf *.dvi *.out
@@ -103,7 +106,7 @@ homepage: html camllib.pdf
 %.cmx: %.ml %.cmi
 	$(OCAMLOPT) $(OCAMLOPTFLAGS) -c $(SRCDIR)/$<
 %.p.cmx: %.ml %.cmi
-	$(OCAMLOPT) -p $(OCAMLOPTFLAGS) -c -o $@ $(SRCDIR)/$<
+	$(OCAMLOPTP) -P a $(OCAMLOPTFLAGS) -c -o $@ $(SRCDIR)/$<
 
 .PHONY: tags TAGS
 tags: TAGS

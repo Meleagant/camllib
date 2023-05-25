@@ -21,6 +21,7 @@ CAMLIDL = $(CAMLIDL_PREFIX)/bin/camlidl
 
 OCAMLC = $(CAML_PREFIX)/bin/ocamlc.opt
 OCAMLOPT = $(CAML_PREFIX)/bin/ocamlopt.opt
+OCAMLOPTP = $(CAML_PREFIX)/bin/ocamloptp
 
 # ocamlc compilation flags
 OCAMLFLAGS = -annot -g
