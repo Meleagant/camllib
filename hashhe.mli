@@ -162,7 +162,7 @@ module type HashedType =
 	  types include
 	  ([(=)], {!hash}) for comparing objects by structure,
 	  ([(fun x y -> compare x y = 0)], {!hash})
-	  for comparing objects by structure and handling {!Pervasives.nan}
+	  for comparing objects by structure and handling {!Stdlib.nan}
 	  correctly, and
 	  ([(==)], {!hash}) for comparing objects by addresses
 	  (e.g. for or cyclic keys). *)

@@ -218,7 +218,7 @@ let cfc_aux root nodes =
 	(fun succ head ->
 	  let dfn = !((Mappe.find succ nodes).attrvertex) in
 	  let m = if dfn=min_int then (visit succ) else dfn in
-	  Pervasives.min m head)
+	  Stdlib.min m head)
 	node.succ
 	!num
     in
@@ -657,7 +657,7 @@ struct
 	(fun succ head ->
 	  let dfn = !((MapV.find succ nodes).attrvertex) in
 	  let m = if dfn=min_int then (visit succ) else dfn in
-	  Pervasives.min m head)
+	  Stdlib.min m head)
 	node.succ
 	!num
       in

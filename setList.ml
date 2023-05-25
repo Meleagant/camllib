@@ -14,7 +14,7 @@ let rec mem elt = function
       if drp > 0 then false
       else if drp=0 then true
       else mem elt l
-let of_list l = List.stable_sort Pervasives.compare l
+let of_list l = List.stable_sort Stdlib.compare l
 let to_list l = l
 let singleton elt = [elt]
 let rec add elt = function

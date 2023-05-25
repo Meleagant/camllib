@@ -282,7 +282,7 @@ module Make(Ord: Set.OrderedType) = struct
   | ((xa,na)::la,(xb,nb)::lb) ->
       let drp = Ord.compare xa xb in
       if drp > 0 then inter ta lb
-      else if drp = 0 then (xa,Pervasives.min na nb)::(inter la lb)
+      else if drp = 0 then (xa,Stdlib.min na nb)::(inter la lb)
       else inter la tb
   let rec diff ta tb = match (ta,tb) with
   | ([],_) -> []
