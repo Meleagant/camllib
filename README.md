@@ -19,6 +19,12 @@ To install
 opam install .
 ```
 
+If you just want to install the library without modifications:
+
+```
+opam pin add git+https://github.com/jogiet/camllib.git#master
+```
+
 TODOs:
 ------
 
