@@ -176,7 +176,7 @@ let sprintf ?margin format =
     fmt
     format
 
-external is_printable: char -> bool = "caml_is_printable"
+let is_printable: char -> bool = fun c -> c >= '\032' && c <= '\126'
 external char_code: char -> int = "%identity"
 external char_chr: int -> char = "%identity"
 
