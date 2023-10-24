@@ -22,20 +22,20 @@ let print ?first ?sep ?last px fmt t = Sette.print ?first ?sep ?last px fmt t.se
 let add x t = make t.compare (Sette.Compare.add t.compare x t.set)
 let mem x t = Sette.Compare.mem t.compare x t.set
 let remove x t = make t.compare (Sette.Compare.remove t.compare x t.set)
-let union t1 t2 = 
+let union t1 t2 =
   make t1.compare (Sette.Compare.union t1.compare t1.set t2.set)
-let inter t1 t2 = 
+let inter t1 t2 =
   make t1.compare (Sette.Compare.inter t1.compare t1.set t2.set)
-let diff t1 t2 = 
+let diff t1 t2 =
   make t1.compare (Sette.Compare.diff t1.compare t1.set t2.set)
 let equal t1 t2 =
   Sette.Compare.equal t1.compare t1.set t2.set
-let compare t1 t2 = 
+let compare t1 t2 =
   Sette.Compare.compare t1.compare t1.set t2.set
 let subset t1 t2 =
   Sette.Compare.subset t1.compare t1.set t2.set
-let filter f t = 
+let filter f t =
   make t.compare (Sette.Compare.filter t.compare f t.set)
-let partition f t = 
+let partition f t =
   let (set1,set2) = Sette.Compare.partition t.compare f t.set in
   (make t.compare set1, make t.compare set2)

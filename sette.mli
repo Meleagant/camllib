@@ -23,14 +23,14 @@
     (like conversions form and to maps and pretty-printing).
 *)
 
-type 'a set = 
+type 'a set =
   | Empty
   | Node of ('a set) * 'a * ('a set) * int
       (** Meant to be internal, but exporting needed for Mappe.maptoset. *)
 
 type 'a t = 'a set
       (** The type of sets over elements of type 'a. *)
-      
+
 val empty: 'a t
     (** The empty set. *)
 val is_empty: 'a t -> bool
@@ -50,7 +50,7 @@ val union: 'a t -> 'a t -> 'a t
 val inter: 'a t -> 'a t -> 'a t
 val diff: 'a t -> 'a t -> 'a t
         (** Union, intersection and set difference. *)
-    
+
 val compare: 'a t -> 'a t -> int
     (** Total ordering between sets. Can be used as the ordering function
        for doing sets of sets. *)
@@ -94,7 +94,7 @@ val elements: 'a t -> 'a list
     (** Return the list of all elements of the given set.  The returned list
        is sorted in increasing order with respect to the ordering
        [Pervasives.compare]. *)
-val min_elt: 'a t -> 'a 
+val min_elt: 'a t -> 'a
     (** Return the smallest element of the given set (with respect to the
        [Ord.compare] ordering), or raise [Not_found] if the set is empty. *)
 val max_elt: 'a t -> 'a
@@ -112,14 +112,14 @@ val print :
     (** *)
 
 (** Output signature of the functor {!Sette.Make}. *)
-module type S = 
+module type S =
   sig
     type elt
     (** The type of the set elements. *)
 	
     type t
     (** The type of sets. *)
-	  
+	
     val repr : t -> elt set
     val obj : elt set -> t
 
@@ -186,7 +186,7 @@ module type S =
     val exists: (elt -> bool) -> t -> bool
     (** [exists p s] checks if at least one element of
        the set satisfies the predicate [p]. *)
-        
+
     val filter: (elt -> bool) -> t -> t
     (** [filter p s] returns the set of all elements in [s]
        that satisfy predicate [p]. *)
@@ -229,7 +229,7 @@ end
 
 (** Functor building an implementation of the set structure
    given a totally ordered type. *)
-module Make(Ord : Set.OrderedType) : S with type elt = Ord.t 
+module Make(Ord : Set.OrderedType) : S with type elt = Ord.t
 				       and module Ord=Ord
 
 module Compare : sig

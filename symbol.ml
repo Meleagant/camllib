@@ -30,7 +30,7 @@ let counter = ref (-1)
 
 let add name =
   try
-    Hashtbl.find tbl_string_symbol name    
+    Hashtbl.find tbl_string_symbol name
   with Not_found ->
     incr counter;
     Hashtbl.add tbl_string_symbol name !counter;
@@ -65,7 +65,7 @@ let print_map print fmt map =
     fprintf fmt "{ @[";
     let isfirst = ref true in
     Map.iter
-      (begin fun t x -> 
+      (begin fun t x ->
 	if !isfirst then begin
 	  fprintf fmt "(%s,%a)" (to_string t) print x;
 	  isfirst := false
@@ -92,7 +92,7 @@ let print_hash print fmt tbl =
     fprintf fmt "{ @[";
     let isfirst = ref true in
     Hash.iter
-      (begin fun t x -> 
+      (begin fun t x ->
 	if !isfirst then begin
 	  fprintf fmt "(%s,%a)" (to_string t) print x;
 	  isfirst := false

@@ -37,10 +37,10 @@ module Map: (Mappe.S with type key=t
 
 val print_set: Format.formatter -> Set.t -> unit
   (** Prints sets of symbols. *)
-val print_hash: 
+val print_hash:
     (Format.formatter -> 'a -> unit) -> Format.formatter -> 'a Hash.t -> unit
   (** Prints hashtables on symbols. *)
-val print_map: 
+val print_map:
     (Format.formatter -> 'a -> unit) -> Format.formatter -> 'a Map.t -> unit
   (** Prints maps on symbols. *)
 

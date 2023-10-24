@@ -1,7 +1,7 @@
 (** Hashhe specialized for keys of type int *)
 
 include Hashhe.Make(
-  struct 
+  struct
     type t=int
     external hash : int -> int = "%identity"
     let equal = (=)

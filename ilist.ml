@@ -23,7 +23,7 @@ let depth (b,ll) =
 	depth (max maxdepth (1+(depth 1 ll2))) ll
   in
   depth 1 ll
-    
+
 let append ~combine (b1,ll1) (b2,ll2) =
   (combine b1 b2, ll1 @ ll2)
 

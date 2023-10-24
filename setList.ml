@@ -61,7 +61,7 @@ let rec equal ta tb =  match (ta,tb) with
 let rec subset ta tb =  match (ta,tb) with
 | ([],_) -> true
 | (_,[]) -> false
-| (xa::la,xb::lb) -> 
+| (xa::la,xb::lb) ->
     let drp = compare xa xb in
     if drp > 0 then subset ta lb
     else if drp = 0 then subset la lb
@@ -95,7 +95,7 @@ let compare =
   in cmp
 let rec filter f = function
   | [] -> []
-  | x :: l -> 
+  | x :: l ->
       let suite = filter f l in
       if f x then x :: suite else suite
 let partition f t =
@@ -121,7 +121,7 @@ module type S =
   sig
     type elt
     type t
-    val print : 
+    val print :
       ?first:(unit, Format.formatter, unit) format ->
       ?sep:(unit, Format.formatter, unit) format ->
       ?last:(unit, Format.formatter, unit) format ->
@@ -217,7 +217,7 @@ module Make(Ord: Set.OrderedType) = struct
   let rec subset ta tb =  match (ta,tb) with
   | ([],_) -> true
   | (_,[]) -> false
-  | (xa::la,xb::lb) -> 
+  | (xa::la,xb::lb) ->
       let drp = Ord.compare xa xb in
       if drp > 0 then subset ta lb
       else if drp = 0 then subset la lb

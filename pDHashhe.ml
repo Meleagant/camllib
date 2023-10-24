@@ -6,18 +6,18 @@ type ('a,'b) t = {
 }
 let hashx t = t.xy
 let hashy t = t.yx
-  
+
 let clear t =
   PHashhe.clear t.xy;
   PHashhe.clear t.yx;
   ()
-    
+
 let create_compare cmpx cmpy size = {
-  xy = PHashhe.create_compare cmpx size; 
+  xy = PHashhe.create_compare cmpx size;
   yx = PHashhe.create_compare cmpy size
 }
-let create hashx eqx hashy eqy size = { 
-  xy = PHashhe.create hashx eqx size; 
+let create hashx eqx hashy eqy size = {
+  xy = PHashhe.create hashx eqx size;
   yx = PHashhe.create hashy eqy size
 }
 let add t x y =
@@ -34,7 +34,7 @@ let removey t y =
   let x = x_of_y t y in
   PHashhe.remove t.xy x;
   PHashhe.remove t.yx y
-    
+
 let memx t x = PHashhe.mem t.xy x
 let memy t y = PHashhe.mem t.yx y
 let iter t f = PHashhe.iter f t.xy

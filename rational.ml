@@ -5,7 +5,7 @@ type t = {
   den : int
 }
 
-let gcd (x:int) (y:int) : int 
+let gcd (x:int) (y:int) : int
   =
   (* we assume a>=b *)
   let rec gcd (a:int) (b:int) : int
@@ -18,21 +18,21 @@ let gcd (x:int) (y:int) : int
   if x>y then gcd x y else gcd y x
 
 let make (num:int) (den:int) : t =
-  let (num,den) = 
+  let (num,den) =
     if den=0 then raise (Invalid_argument "Rational.make: zero denominator")
-    else if den<0 then (-num,-den) 
+    else if den<0 then (-num,-den)
     else (num,den)
   in
   let g = gcd (abs num) den in
   { num = num/g; den = den/g }
-  
+
 let to_string t =
-  if t.den=1 then 
-    string_of_int t.num 
+  if t.den=1 then
+    string_of_int t.num
   else
     Format.sprintf "%i/%i" t.num t.den
 
-let print fmt t = 
+let print fmt t =
   Format.pp_print_string fmt (to_string t)
 
 
@@ -57,9 +57,9 @@ let sub (x:t) (y:t) : t =
   let den = p in
   let num = x.num * (y.den / g) - y.num * (x.den / g) in
   make num den
-    
+
 let mul (x:t) (y:t) : t =
-  let gx = gcd x.num y.den 
+  let gx = gcd x.num y.den
   and gy = gcd y.num x.den
   in {
     num = (x.num/gx) * (y.num/gy);
