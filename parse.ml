@@ -26,34 +26,34 @@ let parse_lexbuf
       and endp = Lexing.lexeme_end_p lexbuf
       in
       Format.eprintf
-	"Syntaxical error: %s, line %i, characters %i-%i: '%s'.@."
-	startp.Lexing.pos_fname
-	startp.Lexing.pos_lnum
-	(startp.Lexing.pos_cnum - startp.Lexing.pos_bol)
-	(endp.Lexing.pos_cnum - endp.Lexing.pos_bol)
-	(Lexing.lexeme lexbuf);
+        "Syntaxical error: %s, line %i, characters %i-%i: '%s'.@."
+        startp.Lexing.pos_fname
+        startp.Lexing.pos_lnum
+        (startp.Lexing.pos_cnum - startp.Lexing.pos_bol)
+        (endp.Lexing.pos_cnum - endp.Lexing.pos_bol)
+        (Lexing.lexeme lexbuf);
       raise Exit;
   | Lex_error ->
       let startp = Lexing.lexeme_start_p lexbuf
       and endp = Lexing.lexeme_end_p lexbuf
       in
       Format.eprintf "Lexical error: %s, line %i, character %i-%i: '%s'.@."
-	startp.Lexing.pos_fname
-	startp.Lexing.pos_lnum
-	(startp.Lexing.pos_cnum - startp.Lexing.pos_bol)
-	(endp.Lexing.pos_cnum - endp.Lexing.pos_bol)
-	(Lexing.lexeme lexbuf);
+        startp.Lexing.pos_fname
+        startp.Lexing.pos_lnum
+        (startp.Lexing.pos_cnum - startp.Lexing.pos_bol)
+        (endp.Lexing.pos_cnum - endp.Lexing.pos_bol)
+        (Lexing.lexeme lexbuf);
       raise Exit
   | Failure(s) when s="int_of_string" ->
       let startp = Lexing.lexeme_start_p lexbuf
       and endp = Lexing.lexeme_end_p lexbuf
       in
       Format.eprintf "Lexical error: %s, line %i, character %i-%i: '%s'.@.int_of_string failure.@."
-	startp.Lexing.pos_fname
-	startp.Lexing.pos_lnum
-	(startp.Lexing.pos_cnum - startp.Lexing.pos_bol)
-	(endp.Lexing.pos_cnum - endp.Lexing.pos_bol)
-	(Lexing.lexeme lexbuf);
+        startp.Lexing.pos_fname
+        startp.Lexing.pos_lnum
+        (startp.Lexing.pos_cnum - startp.Lexing.pos_bol)
+        (endp.Lexing.pos_cnum - endp.Lexing.pos_bol)
+        (Lexing.lexeme lexbuf);
       raise Exit
 
 let parse_string

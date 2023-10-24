@@ -561,11 +561,11 @@ end
 (*  ********************************************************************** *)
 
 module Make(T : T) : (S with type vertex=T.vertex
-			and type hedge=T.hedge
-			and module SetV=T.SetV
-			and module SetH=T.SetH
-			and module HashV=T.HashV
-			and module HashH=T.HashH)
+                        and type hedge=T.hedge
+                        and module SetV=T.SetV
+                        and module SetH=T.SetH
+                        and module HashV=T.HashV
+                        and module HashH=T.HashH)
 
 (*  ********************************************************************** *)
 (** {2 Compare interface} *)

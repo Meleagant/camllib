@@ -101,14 +101,14 @@ let map g map_attrvertex map_attrhedge map_info = {
   vertex = begin
     Hashhe.map
       (fun v vertex_n -> { vertex_n with
-	attrvertex = map_attrvertex v vertex_n.attrvertex;
+        attrvertex = map_attrvertex v vertex_n.attrvertex;
       })
       g.vertex
   end;
   hedge = begin
     Hashhe.map
       (fun h hedge_n -> { hedge_n with
-	attrhedge = map_attrhedge h hedge_n.attrhedge;
+        attrhedge = map_attrhedge h hedge_n.attrhedge;
       })
       g.hedge
   end;
@@ -119,14 +119,14 @@ let copy copy_attrvertex copy_attrhedge copy_info g = {
   vertex = begin
     Hashhe.map
       (fun v vertex_n -> { vertex_n with
-	attrvertex = copy_attrvertex v vertex_n.attrvertex;
+        attrvertex = copy_attrvertex v vertex_n.attrvertex;
       })
       g.vertex
   end;
   hedge = begin
     Hashhe.map
       (fun h hedge_n -> { hedge_n with
-	attrhedge = copy_attrhedge h hedge_n.attrhedge;
+        attrhedge = copy_attrhedge h hedge_n.attrhedge;
       })
       g.hedge
   end;
@@ -137,18 +137,18 @@ let transpose copy_attrvertex copy_attrhedge copy_info g = {
   vertex = begin
     Hashhe.map
       (fun v vertex_n -> {
-	attrvertex = copy_attrvertex v vertex_n.attrvertex;
-	predhedge = vertex_n.succhedge;
-	succhedge = vertex_n.predhedge
+        attrvertex = copy_attrvertex v vertex_n.attrvertex;
+        predhedge = vertex_n.succhedge;
+        succhedge = vertex_n.predhedge
       })
       g.vertex
   end;
   hedge = begin
     Hashhe.map
       (fun h hedge_n -> {
-	attrhedge = copy_attrhedge h hedge_n.attrhedge;
-	predvertex = hedge_n.succvertex;
-	succvertex = hedge_n.predvertex
+        attrhedge = copy_attrhedge h hedge_n.attrhedge;
+        predvertex = hedge_n.succvertex;
+        succvertex = hedge_n.predvertex
       })
       g.hedge
   end;
@@ -180,10 +180,10 @@ module Compare = struct
     let res = ref Sette.empty in
     Sette.iter
       (begin fun h ->
-	let succvertex = succvertex cmp g h in
-	Array.iter
-	  (fun v -> res := Sette.Compare.add cmp.comparev v !res)
-	  succvertex
+        let succvertex = succvertex cmp g h in
+        Array.iter
+          (fun v -> res := Sette.Compare.add cmp.comparev v !res)
+          succvertex
       end)
       succhedge;
     !res
@@ -193,10 +193,10 @@ module Compare = struct
     let res = ref Sette.empty in
     Sette.iter
       (begin fun h ->
-	let predvertex = predvertex cmp g h in
-	Array.iter
-	  (fun v -> res := Sette.Compare.add cmp.comparev v !res)
-	  predvertex
+        let predvertex = predvertex cmp g h in
+        Array.iter
+          (fun v -> res := Sette.Compare.add cmp.comparev v !res)
+          predvertex
       end)
       predhedge;
     !res
@@ -214,17 +214,17 @@ module Compare = struct
     ;
     begin try
       Array.iter
-	(fun v ->
-	  let vertex_n =  vertex_n cmp g v in
-	  vertex_n.succhedge <- Sette.Compare.add cmp.compareh h vertex_n.succhedge;
-	)
-	pred;
+        (fun v ->
+          let vertex_n =  vertex_n cmp g v in
+          vertex_n.succhedge <- Sette.Compare.add cmp.compareh h vertex_n.succhedge;
+        )
+        pred;
       Array.iter
-	(fun v ->
-	  let vertex_n =  vertex_n cmp g v in
-	  vertex_n.predhedge <- Sette.Compare.add cmp.compareh h vertex_n.predhedge;
-	)
-	succ;
+        (fun v ->
+          let vertex_n =  vertex_n cmp g v in
+          vertex_n.predhedge <- Sette.Compare.add cmp.compareh h vertex_n.predhedge;
+        )
+        succ;
     with Not_found ->
       failwith "SHGraph.add_hedge: origin vertex and/or destination hedge doesn't already exist"
     end;
@@ -245,17 +245,17 @@ module Compare = struct
     try
       let hedge_n = hedge_n cmp g h in
       Array.iter
-	(begin fun v ->
-	  let vertex_n = vertex_n cmp g v in
-	  vertex_n.succhedge <- Sette.Compare.remove cmp.compareh h vertex_n.succhedge
-	end)
-	hedge_n.predvertex;
+        (begin fun v ->
+          let vertex_n = vertex_n cmp g v in
+          vertex_n.succhedge <- Sette.Compare.remove cmp.compareh h vertex_n.succhedge
+        end)
+        hedge_n.predvertex;
       Array.iter
-	(begin fun v ->
-	  let vertex_n = vertex_n cmp g v in
-	  vertex_n.predhedge <- Sette.Compare.remove cmp.compareh h vertex_n.predhedge
-	end)
-	hedge_n.succvertex;
+        (begin fun v ->
+          let vertex_n = vertex_n cmp g v in
+          vertex_n.predhedge <- Sette.Compare.remove cmp.compareh h vertex_n.predhedge
+        end)
+        hedge_n.succvertex;
       Hashhe.Compare.remove cmp.hashh g.hedge h;
     with Not_found ->
       ()
@@ -277,20 +277,20 @@ module Compare = struct
     assert (root<>Sette.empty);
     Hashhe.Compare.add cmp.hashv g.vertex vertex_dummy
       {
-	attrvertex=Obj.magic 0;
-	succhedge=Sette.singleton hedge_dummy;
-	predhedge=Sette.empty
+        attrvertex=Obj.magic 0;
+        succhedge=Sette.singleton hedge_dummy;
+        predhedge=Sette.empty
       };
     Hashhe.Compare.add cmp.hashh g.hedge hedge_dummy
       {
-	attrhedge=Obj.magic 0;
-	succvertex=begin
-	  let tab = Array.make (Sette.cardinal root) (Sette.choose root) in
-	  let i = ref 0 in
-	  Sette.iter (fun v -> tab.(!i) <- v; incr i) root;
-	  tab
-	end;
-	predvertex=[|vertex_dummy|]
+        attrhedge=Obj.magic 0;
+        succvertex=begin
+          let tab = Array.make (Sette.cardinal root) (Sette.choose root) in
+          let i = ref 0 in
+          Sette.iter (fun v -> tab.(!i) <- v; incr i) root;
+          tab
+        end;
+        predvertex=[|vertex_dummy|]
       };
     ()
 
@@ -308,45 +308,45 @@ module Compare = struct
 
     let rec visit res v =
       if Hashhe.Compare.mem cmp.hashv hash v then
-	res
+        res
       else begin
-	Hashhe.Compare.add cmp.hashv hash v ();
-	let succhedges = succhedge cmp g v in
-	let nres = v::res in
-	match priority with
-	| None -> Sette.fold explore succhedges nres
-	| Some(Filter(p)) ->
-	    Sette.fold
-	    (begin fun h res -> if p h then explore h res else res end)
-	    succhedges nres
-	| Some(Priority(p)) ->
-	    let lhedges =
-	      Sette.fold
-		(begin fun h res -> if p h >= 0 then h::res else res end)
-		succhedges []
-	    in
-	    let lhedges = List.sort (compare_priority p) lhedges in
-	    List.fold_left
-	      (begin fun res h -> explore h res end)
-	      nres
-	      lhedges
+        Hashhe.Compare.add cmp.hashv hash v ();
+        let succhedges = succhedge cmp g v in
+        let nres = v::res in
+        match priority with
+        | None -> Sette.fold explore succhedges nres
+        | Some(Filter(p)) ->
+            Sette.fold
+            (begin fun h res -> if p h then explore h res else res end)
+            succhedges nres
+        | Some(Priority(p)) ->
+            let lhedges =
+              Sette.fold
+                (begin fun h res -> if p h >= 0 then h::res else res end)
+                succhedges []
+            in
+            let lhedges = List.sort (compare_priority p) lhedges in
+            List.fold_left
+              (begin fun res h -> explore h res end)
+              nres
+              lhedges
       end
 
     and explore (hedge:'b) (res:'a list) : 'a list
       =
       let hedge_n = hedge_n cmp g hedge in
       let cond =
-	array_forall
-	  (Hashhe.Compare.mem cmp.hashv hash)
-	  hedge_n.predvertex
+        array_forall
+          (Hashhe.Compare.mem cmp.hashv hash)
+          hedge_n.predvertex
       in
       if cond then
-	Array.fold_left
-	  visit
-	  res
-	  hedge_n.succvertex
+        Array.fold_left
+          visit
+          res
+          hedge_n.succvertex
       else
-	res
+        res
 
     in
     let res = visit [] root in
@@ -356,8 +356,8 @@ module Compare = struct
     add_dummy_forward cmp vertex_dummy hedge_dummy g root;
     let res =
       topological_sort cmp
-	?priority:(map_priority cmp hedge_dummy priority)
-	g vertex_dummy
+        ?priority:(map_priority cmp hedge_dummy priority)
+        g vertex_dummy
     in
     rem_dummy cmp vertex_dummy hedge_dummy g;
     List.tl res
@@ -372,51 +372,51 @@ module Compare = struct
     let hashh = Hashhe.create 23 in
     let rec visit v =
       if not (Hashhe.Compare.mem cmp.hashv hashv v) then begin
-	Hashhe.Compare.add cmp.hashv hashv v ();
-	Sette.iter
-	  (begin fun h ->
-	    if
-	      begin match filter with
-	      | None -> true
-	      | Some p -> p h
-	      end
-	      &&
-	      not (Hashhe.Compare.mem cmp.hashh hashh h)
-	    then begin
-	      let hedge_n = hedge_n cmp g h in
-	      let cond =
-		array_forall
-		  (Hashhe.Compare.mem cmp.hashv hashv)
-		  hedge_n.predvertex
-	      in
-	      if cond then begin
-		Hashhe.Compare.add cmp.hashh hashh h ();
-		Array.iter
-		  visit
-		  hedge_n.succvertex
-	      end
-	    end
-	  end)
-	  (succhedge cmp g v)
+        Hashhe.Compare.add cmp.hashv hashv v ();
+        Sette.iter
+          (begin fun h ->
+            if
+              begin match filter with
+              | None -> true
+              | Some p -> p h
+              end
+              &&
+              not (Hashhe.Compare.mem cmp.hashh hashh h)
+            then begin
+              let hedge_n = hedge_n cmp g h in
+              let cond =
+                array_forall
+                  (Hashhe.Compare.mem cmp.hashv hashv)
+                  hedge_n.predvertex
+              in
+              if cond then begin
+                Hashhe.Compare.add cmp.hashh hashh h ();
+                Array.iter
+                  visit
+                  hedge_n.succvertex
+              end
+            end
+          end)
+          (succhedge cmp g v)
       end
     in
     visit root;
     let setv =
       fold_vertex g
-	(begin fun v _ ~pred:_ ~succ:_ res ->
-	  if not (Hashhe.Compare.mem cmp.hashv hashv v)
-	  then Sette.Compare.add cmp.comparev v res
-	  else res
-	end)
-	Sette.empty
+        (begin fun v _ ~pred:_ ~succ:_ res ->
+          if not (Hashhe.Compare.mem cmp.hashv hashv v)
+          then Sette.Compare.add cmp.comparev v res
+          else res
+        end)
+        Sette.empty
     and setn =
       fold_hedge g
-	(begin fun h _ ~pred:_ ~succ:_ res ->
-	  if not (Hashhe.Compare.mem cmp.hashh hashh h)
-	  then Sette.Compare.add cmp.compareh h res
-	  else res
-	end)
-	Sette.empty
+        (begin fun h _ ~pred:_ ~succ:_ res ->
+          if not (Hashhe.Compare.mem cmp.hashh hashh h)
+          then Sette.Compare.add cmp.compareh h res
+          else res
+        end)
+        Sette.empty
     in
     (setv,setn)
 
@@ -424,11 +424,11 @@ module Compare = struct
     add_dummy_forward cmp vertex_dummy hedge_dummy g root;
     let res =
       reachable cmp
-	?filter:begin match filter with
-	| None -> None
-	| Some p -> Some(fun h -> if cmp.hashh.Hashhe.equal h hedge_dummy then true else p h)
-	end
-	g vertex_dummy
+        ?filter:begin match filter with
+        | None -> None
+        | Some p -> Some(fun h -> if cmp.hashh.Hashhe.equal h hedge_dummy then true else p h)
+        end
+        g vertex_dummy
     in
     rem_dummy cmp vertex_dummy hedge_dummy g;
     let (vertices,hedges) = res in
@@ -454,57 +454,57 @@ module Compare = struct
       Hashhe.Compare.replace cmp.hashv hash sommet num_sommet;
       let succhedges = succhedge cmp g sommet in
       let head =
-	match priority with
-	| None ->
-	    Sette.fold compute_head succhedges !num
-	| Some(Filter p) ->
-	    Sette.fold
-	    (begin fun h head ->
-	      if p h then compute_head h head else head
-	    end)
-	    succhedges !num
-	| Some(Priority p) ->
-	    let lhedges =
-	      Sette.fold
-		(begin fun h res -> if p h >= 0 then h::res else res end)
-		succhedges []
-	    in
-	    let lhedges = List.sort (compare_priority p) lhedges in
-	    List.fold_left (fun head h -> compute_head h head) !num lhedges
+        match priority with
+        | None ->
+            Sette.fold compute_head succhedges !num
+        | Some(Filter p) ->
+            Sette.fold
+            (begin fun h head ->
+              if p h then compute_head h head else head
+            end)
+            succhedges !num
+        | Some(Priority p) ->
+            let lhedges =
+              Sette.fold
+                (begin fun h res -> if p h >= 0 then h::res else res end)
+                succhedges []
+            in
+            let lhedges = List.sort (compare_priority p) lhedges in
+            List.fold_left (fun head h -> compute_head h head) !num lhedges
       in
       if head = num_sommet then
-	begin
-	  let element = ref (Stack.pop pile) in
-	  let composante = ref [!element] in
-	  Hashhe.Compare.replace cmp.hashv hash !element max_int;
-	  while not (cmp.hashv.Hashhe.equal !element sommet) do
-	    element := Stack.pop pile;
-	    Hashhe.Compare.replace cmp.hashv hash !element max_int;
-	    composante := !element :: !composante
-	  done;
-	  partition := !composante :: !partition
-	end;
+        begin
+          let element = ref (Stack.pop pile) in
+          let composante = ref [!element] in
+          Hashhe.Compare.replace cmp.hashv hash !element max_int;
+          while not (cmp.hashv.Hashhe.equal !element sommet) do
+            element := Stack.pop pile;
+            Hashhe.Compare.replace cmp.hashv hash !element max_int;
+            composante := !element :: !composante
+          done;
+          partition := !composante :: !partition
+        end;
       head
     and compute_head h head
       =
       let hedge_n = hedge_n cmp g h in
       let cond =
-	array_exists
-	  (fun v -> Hashhe.Compare.find cmp.hashv hash v > min_int)
-	  hedge_n.predvertex
+        array_exists
+          (fun v -> Hashhe.Compare.find cmp.hashv hash v > min_int)
+          hedge_n.predvertex
       in
       if cond then begin
-	Array.fold_left
-	  (begin fun head succ ->
-	    let dfn = Hashhe.Compare.find cmp.hashv hash succ in
-	    let m = if dfn=min_int then (visit succ) else dfn in
-	    min m head
-	  end)
-	  head
-	  hedge_n.succvertex
+        Array.fold_left
+          (begin fun head succ ->
+            let dfn = Hashhe.Compare.find cmp.hashv hash succ in
+            let m = if dfn=min_int then (visit succ) else dfn in
+            min m head
+          end)
+          head
+          hedge_n.succvertex
       end
       else
-	head
+        head
     in
 
     let _ = visit root in
@@ -539,18 +539,18 @@ module Compare = struct
       =
       let hedge_n = hedge_n cmp g h in
       let cond =
-	array_exists
-	  (fun v -> Hashhe.Compare.find cmp.hashv hash v > min_int)
-	  hedge_n.predvertex
+        array_exists
+          (fun v -> Hashhe.Compare.find cmp.hashv hash v > min_int)
+          hedge_n.predvertex
       in
       if cond then begin
-	Array.iter
-	  (begin fun succ ->
-	    if Hashhe.Compare.find cmp.hashv hash succ = min_int then begin
-	      ignore (visit succ partition)
-	    end
-	  end)
-	  hedge_n.succvertex
+        Array.iter
+          (begin fun succ ->
+            if Hashhe.Compare.find cmp.hashv hash succ = min_int then begin
+              ignore (visit succ partition)
+            end
+          end)
+          hedge_n.succvertex
       end
     and composante sommet
       =
@@ -558,21 +558,21 @@ module Compare = struct
       let succhedges = succhedge cmp g sommet in
       begin match priority with
       | None ->
-	  Sette.iter (composante_aux partition) succhedges
+          Sette.iter (composante_aux partition) succhedges
       | Some(Filter p) ->
-	  Sette.iter
-	  (begin fun h ->
-	    if p h then composante_aux partition h
-	  end)
-	  succhedges
+          Sette.iter
+          (begin fun h ->
+            if p h then composante_aux partition h
+          end)
+          succhedges
       | Some(Priority p) ->
-	  let lhedges =
-	    Sette.fold
-	      (begin fun h res -> if p h >=0 then h::res else res end)
-	      succhedges []
-	  in
-	  let lhedges = List.sort (compare_priority p) lhedges in
-	  List.iter (composante_aux partition) lhedges
+          let lhedges =
+            Sette.fold
+              (begin fun h res -> if p h >=0 then h::res else res end)
+              succhedges []
+          in
+          let lhedges = List.sort (compare_priority p) lhedges in
+          List.iter (composante_aux partition) lhedges
       end;
       Ilist.Atome(sommet)::(!partition)
 
@@ -586,61 +586,61 @@ module Compare = struct
       let succhedges = succhedge cmp g sommet in
       begin match priority with
       | None ->
-	  Sette.iter (compute_head partition head loop) succhedges
+          Sette.iter (compute_head partition head loop) succhedges
       | Some(Filter p) ->
-	  Sette.iter
-	  (begin fun h ->
-	    if p h then (compute_head partition head loop) h
-	  end)
-	  succhedges
+          Sette.iter
+          (begin fun h ->
+            if p h then (compute_head partition head loop) h
+          end)
+          succhedges
       | Some(Priority p) ->
-	  let lhedges =
-	    Sette.fold
-	      (begin fun h res -> if p h >= 0 then h::res else res end)
-	      succhedges []
-	  in
-	  let lhedges = List.sort (compare_priority p) lhedges in
-	  List.iter (compute_head partition head loop) lhedges
+          let lhedges =
+            Sette.fold
+              (begin fun h res -> if p h >= 0 then h::res else res end)
+              succhedges []
+          in
+          let lhedges = List.sort (compare_priority p) lhedges in
+          List.iter (compute_head partition head loop) lhedges
       end
       ;
       if !head = num_sommet then
-	begin
-	  Hashhe.Compare.replace cmp.hashv hash sommet max_int;
-	  let element = ref (Stack.pop pile) in
-	  if !loop then
-	    begin
-	      while not (cmp.hashv.Hashhe.equal !element sommet) do
-		Hashhe.Compare.replace cmp.hashv hash !element min_int;
-		element := Stack.pop pile
-	      done;
-	      let component = composante sommet in
-	      partition := Ilist.List((),component)::(!partition)
-	    end
-	  else
-	    partition := Ilist.Atome(sommet)::(!partition)
-	end;
+        begin
+          Hashhe.Compare.replace cmp.hashv hash sommet max_int;
+          let element = ref (Stack.pop pile) in
+          if !loop then
+            begin
+              while not (cmp.hashv.Hashhe.equal !element sommet) do
+                Hashhe.Compare.replace cmp.hashv hash !element min_int;
+                element := Stack.pop pile
+              done;
+              let component = composante sommet in
+              partition := Ilist.List((),component)::(!partition)
+            end
+          else
+            partition := Ilist.Atome(sommet)::(!partition)
+        end;
       !head
 
     and compute_head partition head loop h
       =
       let hedge_n = hedge_n cmp g h in
       let cond =
-	array_exists
-	  (fun v -> Hashhe.Compare.find cmp.hashv hash v > min_int)
-	  hedge_n.predvertex
+        array_exists
+          (fun v -> Hashhe.Compare.find cmp.hashv hash v > min_int)
+          hedge_n.predvertex
       in
       if cond then begin
-	Array.iter
-	  (begin fun succ ->
-	    let dfn = Hashhe.Compare.find cmp.hashv hash succ in
-	    let m =
-	      if dfn=min_int
-	      then (visit succ partition)
-	      else dfn
-	    in
-	    if m <= !head then begin loop := true; head := m end
-	  end)
-	  hedge_n.succvertex
+        Array.iter
+          (begin fun succ ->
+            let dfn = Hashhe.Compare.find cmp.hashv hash succ in
+            let m =
+              if dfn=min_int
+              then (visit succ partition)
+              else dfn
+            in
+            if m <= !head then begin loop := true; head := m end
+          end)
+          hedge_n.succvertex
       end
     in
 
@@ -668,19 +668,19 @@ module Compare = struct
     let printv v =
       let vertex_n = vertex_n cmp g v in
       fprintf formatter
-	"{ @[<hov>v = %a,@ attrv = %a,@ predh = %a,@ succh = %a@] }@ "
-	print_vertex v
-	print_attrvertex vertex_n.attrvertex
-	(Sette.print print_hedge) vertex_n.predhedge
-	(Sette.print print_hedge) vertex_n.succhedge
+        "{ @[<hov>v = %a,@ attrv = %a,@ predh = %a,@ succh = %a@] }@ "
+        print_vertex v
+        print_attrvertex vertex_n.attrvertex
+        (Sette.print print_hedge) vertex_n.predhedge
+        (Sette.print print_hedge) vertex_n.succhedge
     and printh h =
       let hedge_n = hedge_n cmp g h in
       fprintf formatter
-	"{ @[<hov>h = %a,@ attrh = %a,@ predv = %a,@ succv = %a@] }@ "
-	print_hedge h
-	print_attrhedge hedge_n.attrhedge
-	(Print.array print_vertex) hedge_n.predvertex
-	(Print.array print_vertex) hedge_n.succvertex
+        "{ @[<hov>h = %a,@ attrh = %a,@ predv = %a,@ succv = %a@] }@ "
+        print_hedge h
+        print_attrhedge hedge_n.attrhedge
+        (Print.array print_vertex) hedge_n.predvertex
+        (Print.array print_vertex) hedge_n.succvertex
     in
 
     (* Build the set of vertices and hedges and sort it *)
@@ -701,17 +701,17 @@ module Compare = struct
   let min cmp g =
     Hashhe.fold
       (fun v vertex_n res ->
-	if vertex_n.predhedge = Sette.empty
-	then Sette.Compare.add cmp.comparev v res
-	else res)
+        if vertex_n.predhedge = Sette.empty
+        then Sette.Compare.add cmp.comparev v res
+        else res)
       g.vertex Sette.empty
 
   let max cmp g =
     Hashhe.fold
       (fun v vertex_n res ->
-	if vertex_n.succhedge = Sette.empty
-	then Sette.Compare.add cmp.comparev v res
-	else res)
+        if vertex_n.succhedge = Sette.empty
+        then Sette.Compare.add cmp.comparev v res
+        else res)
       g.vertex Sette.empty
 end
 
@@ -879,37 +879,37 @@ let print_dot
   Hashhe.iter
     (begin fun vertex vertex_n ->
       fprintf fmt "%a [%s,label=\"%t\"];@ "
-	print_vertex vertex
-	(match fvertexstyle with
-	| Some f -> f vertex
-	| None -> vertexstyle)
-	(fun fmt -> print_attrvertex fmt vertex vertex_n.attrvertex);
+        print_vertex vertex
+        (match fvertexstyle with
+        | Some f -> f vertex
+        | None -> vertexstyle)
+        (fun fmt -> print_attrvertex fmt vertex vertex_n.attrvertex);
     end)
     g.vertex;
   Hashhe.iter
     (begin fun hedge hedge_n ->
       fprintf fmt "%a [%s,label=\"%t\"];@ "
-	print_hedge hedge
-	(match fhedgestyle with
-	| Some f -> f hedge
-	| None -> hedgestyle)
-	(fun fmt -> print_attrhedge fmt hedge hedge_n.attrhedge);
+        print_hedge hedge
+        (match fhedgestyle with
+        | Some f -> f hedge
+        | None -> hedgestyle)
+        (fun fmt -> print_attrhedge fmt hedge hedge_n.attrhedge);
     end)
     g.hedge;
   Hashhe.iter
     (begin fun hedge hedge_n ->
       Array.iter
-	(begin fun pred ->
-	  fprintf fmt "%a -> %a;@ "
-	    print_vertex pred print_hedge hedge
-	end)
-	hedge_n.predvertex;
+        (begin fun pred ->
+          fprintf fmt "%a -> %a;@ "
+            print_vertex pred print_hedge hedge
+        end)
+        hedge_n.predvertex;
       Array.iter
-	(begin fun succ ->
-	  fprintf fmt "%a -> %a;@ "
-	    print_hedge hedge print_vertex succ
-	end)
-	hedge_n.succvertex
+        (begin fun succ ->
+          fprintf fmt "%a -> %a;@ "
+            print_hedge hedge print_vertex succ
+        end)
+        hedge_n.succvertex
     end)
     g.hedge
   ;
@@ -1090,11 +1090,11 @@ module type S = sig
 end
 
 module Make(T : T) : (S with type vertex=T.vertex
-			and type hedge=T.hedge
-			and module SetV=T.SetV
-			and module SetH=T.SetH
-			and module HashV=T.HashV
-			and module HashH=T.HashH)= struct
+                        and type hedge=T.hedge
+                        and module SetV=T.SetV
+                        and module SetH=T.SetH
+                        and module HashV=T.HashV
+                        and module HashH=T.HashH)= struct
 
   type vertex = T.vertex
   type hedge = T.hedge

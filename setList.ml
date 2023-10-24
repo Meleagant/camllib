@@ -102,9 +102,9 @@ let partition f t =
   List.fold_right
     (begin fun x (a,b) ->
       if f x then
-	(x :: a, b)
+        (x :: a, b)
       else
-	(a, x :: b)
+        (a, x :: b)
     end)
     t ([],[])
 let rec exists f = function
@@ -166,27 +166,27 @@ module Make(Ord: Set.OrderedType) = struct
   let rec mem elt = function
     | [] -> false
     | x::l ->
-	let drp = Ord.compare x elt in
-	if drp > 0 then false
-	else if drp=0 then true
-	else mem elt l
+        let drp = Ord.compare x elt in
+        if drp > 0 then false
+        else if drp=0 then true
+        else mem elt l
   let of_list = of_list
   let to_list = to_list
   let singleton = singleton
   let rec add elt = function
     | [] -> [elt]
     | (x::l) as t ->
-	let drp = Ord.compare x elt in
-	if drp > 0 then elt::t
-	else if drp=0 then t
-	else x::(add elt l)
+        let drp = Ord.compare x elt in
+        if drp > 0 then elt::t
+        else if drp=0 then t
+        else x::(add elt l)
   let rec remove elt = function
     | [] -> []
     | (x::l) as t ->
-	let drp = Ord.compare x elt in
-	if drp < 0 then x::(remove elt l)
-	else if drp=0 then l
-	else t
+        let drp = Ord.compare x elt in
+        if drp < 0 then x::(remove elt l)
+        else if drp=0 then l
+        else t
   let rec union ta tb = match (ta,tb) with
   | ([],_) -> tb
   | (_,[]) -> ta

@@ -49,26 +49,26 @@ let bal l v r =
     match l with
       Empty -> invalid_arg "Set.bal"
     | Node(ll, lv, lr, _) ->
-	if height ll >= height lr then
-	  create ll lv (create lr v r)
-	else begin
-	  match lr with
-	    Empty -> invalid_arg "Set.bal"
-	  | Node(lrl, lrv, lrr, _)->
-	      create (create ll lv lrl) lrv (create lrr v r)
-	end
+        if height ll >= height lr then
+          create ll lv (create lr v r)
+        else begin
+          match lr with
+            Empty -> invalid_arg "Set.bal"
+          | Node(lrl, lrv, lrr, _)->
+              create (create ll lv lrl) lrv (create lrr v r)
+        end
   end else if hr > hl + 2 then begin
     match r with
       Empty -> invalid_arg "Set.bal"
     | Node(rl, rv, rr, _) ->
-	if height rr >= height rl then
-	  create (create l v rl) rv rr
-	else begin
-	  match rl with
-	    Empty -> invalid_arg "Set.bal"
-	  | Node(rll, rlv, rlr, _) ->
-	      create (create l v rll) rlv (create rlr rv rr)
-	end
+        if height rr >= height rl then
+          create (create l v rl) rv rr
+        else begin
+          match rl with
+            Empty -> invalid_arg "Set.bal"
+          | Node(rll, rlv, rlr, _) ->
+              create (create l v rll) rlv (create rlr rv rr)
+        end
   end else
     Node(l, v, r, (if hl >= hr then hl + 1 else hr + 1))
 
@@ -157,10 +157,10 @@ module Compare = struct
   let rec add (compare:'a -> 'a -> int) x = function
     | Empty -> Node(Empty, x, Empty, 1)
     | Node(l, v, r, _) as t ->
-	let c = compare x v in
-	if c = 0 then t
-	else if c < 0 then bal (add compare x l) v r
-	else bal l v (add compare x r)
+        let c = compare x v in
+        if c = 0 then t
+        else if c < 0 then bal (add compare x l) v r
+        else bal l v (add compare x r)
 
   (** Same as create and bal, but no assumptions are made on the relative
      heights of l and r. *)
@@ -169,9 +169,9 @@ module Compare = struct
     | (Empty, _) -> add compare v r
     | (_, Empty) -> add compare v l
     | (Node(ll, lv, lr, lh), Node(rl, rv, rr, rh)) ->
-	if lh > rh + 2 then bal ll lv (join compare lr v r)
-	else if rh > lh + 2 then bal (join compare l v rl) rv rr
-	else create l v r
+        if lh > rh + 2 then bal ll lv (join compare lr v r)
+        else if rh > lh + 2 then bal (join compare l v rl) rv rr
+        else create l v r
 
   (** Merge two trees l and r into one.  All elements of l must precede the
     elements of r.  No assumption on the heights of l and r. *)
@@ -188,29 +188,29 @@ module Compare = struct
     or true if s contains an element equal to x. *)
   let rec split (compare:'a -> 'a -> int) x = function
     | Empty ->
-	(Empty, false, Empty)
+        (Empty, false, Empty)
     | Node(l, v, r, _) ->
-	let c = compare x v in
-	if c = 0 then (l, true, r)
-	else if c < 0 then
-	  let (ll, pres, rl) = split compare x l in (ll, pres, join compare rl v r)
-	else
-	  let (lr, pres, rr) = split compare x r in (join compare l v lr, pres, rr)
+        let c = compare x v in
+        if c = 0 then (l, true, r)
+        else if c < 0 then
+          let (ll, pres, rl) = split compare x l in (ll, pres, join compare rl v r)
+        else
+          let (lr, pres, rr) = split compare x r in (join compare l v lr, pres, rr)
 
   (** Implementation of the set operations *)
   let rec mem (compare:'a -> 'a -> int) x = function
     | Empty -> false
     | Node(l, v, r, _) ->
-	let c = compare x v in
-	c = 0 || mem compare x (if c < 0 then l else r)
+        let c = compare x v in
+        c = 0 || mem compare x (if c < 0 then l else r)
 
   let rec remove (compare:'a -> 'a -> int) x = function
     | Empty -> Empty
     | Node(l, v, r, _) ->
-	let c = compare x v in
-	if c = 0 then merge l r
-	else if c < 0 then bal (remove compare x l) v r
-	else bal l v (remove compare x r)
+        let c = compare x v in
+        if c = 0 then merge l r
+        else if c < 0 then bal (remove compare x l) v r
+        else bal l v (remove compare x r)
 
   let union (compare:'a -> 'a -> int) s1 s2 =
     let rec union s1 s2 =
@@ -218,16 +218,16 @@ module Compare = struct
       | (Empty, t2) -> t2
       | (t1, Empty) -> t1
       | (Node(l1, v1, r1, h1), Node(l2, v2, r2, h2)) ->
-	  if h1 >= h2 then
-	    if h2 = 1 then add compare v2 s1 else begin
-	      let (l2, _, r2) = split compare v1 s2 in
-	      join compare (union l1 l2) v1 (union r1 r2)
-	    end
-	  else
-	    if h1 = 1 then add compare v1 s2 else begin
-	      let (l1, _, r1) = split compare v2 s1 in
-	      join compare (union l1 l2) v2 (union r1 r2)
-	    end
+          if h1 >= h2 then
+            if h2 = 1 then add compare v2 s1 else begin
+              let (l2, _, r2) = split compare v1 s2 in
+              join compare (union l1 l2) v1 (union r1 r2)
+            end
+          else
+            if h1 = 1 then add compare v1 s2 else begin
+              let (l1, _, r1) = split compare v2 s1 in
+              join compare (union l1 l2) v2 (union r1 r2)
+            end
     in
     union s1 s2
 
@@ -237,11 +237,11 @@ module Compare = struct
       | (Empty, t2) -> Empty
       | (t1, Empty) -> Empty
       | (Node(l1, v1, r1, _), t2) ->
-	  match split compare v1 t2 with
-	  (l2, false, r2) ->
-	    concat compare (inter l1 l2) (inter r1 r2)
-	  | (l2, true, r2) ->
-	      join compare (inter l1 l2) v1 (inter r1 r2)
+          match split compare v1 t2 with
+          (l2, false, r2) ->
+            concat compare (inter l1 l2) (inter r1 r2)
+          | (l2, true, r2) ->
+              join compare (inter l1 l2) v1 (inter r1 r2)
     in
     inter s1 s2
 
@@ -251,11 +251,11 @@ module Compare = struct
       | (Empty, t2) -> Empty
       | (t1, Empty) -> t1
       | (Node(l1, v1, r1, _), t2) ->
-	  match split compare v1 t2 with
-	  (l2, false, r2) ->
-	    join compare (diff l1 l2) v1 (diff r1 r2)
-	  | (l2, true, r2) ->
-	      concat compare (diff l1 l2) (diff r1 r2)
+          match split compare v1 t2 with
+          (l2, false, r2) ->
+            join compare (diff l1 l2) v1 (diff r1 r2)
+          | (l2, true, r2) ->
+              concat compare (diff l1 l2) (diff r1 r2)
     in
     diff s1 s2
 
@@ -266,14 +266,14 @@ module Compare = struct
       | ([], _)  -> -1
       | (_, []) -> 1
       | (Empty :: t1, Empty :: t2) ->
-	  compare_aux t1 t2
+          compare_aux t1 t2
       | (Node(Empty, v1, r1, _) :: t1, Node(Empty, v2, r2, _) :: t2) ->
-	  let c = compare v1 v2 in
-	  if c <> 0 then c else compare_aux (r1::t1) (r2::t2)
+          let c = compare v1 v2 in
+          if c <> 0 then c else compare_aux (r1::t1) (r2::t2)
       | (Node(l1, v1, r1, _) :: t1, t2) ->
-	  compare_aux (l1 :: Node(Empty, v1, r1, 0) :: t1) t2
+          compare_aux (l1 :: Node(Empty, v1, r1, 0) :: t1) t2
       | (t1, Node(l2, v2, r2, _) :: t2) ->
-	  compare_aux t1 (l2 :: Node(Empty, v2, r2, 0) :: t2)
+          compare_aux t1 (l2 :: Node(Empty, v2, r2, 0) :: t2)
     in
     compare_aux l1 l2
 
@@ -287,39 +287,39 @@ module Compare = struct
     let rec subset s1 s2 =
       match (s1, s2) with
       | Empty, _ ->
-	  true
+          true
       | _, Empty ->
-	  false
+          false
       | Node (l1, v1, r1, _), (Node (l2, v2, r2, _) as t2) ->
-	  let c = compare v1 v2 in
-	  if c = 0 then
-	    subset l1 l2 && subset r1 r2
-	  else if c < 0 then
-	    subset (Node (l1, v1, Empty, 0)) l2 && subset r1 t2
-	  else
-	    subset (Node (Empty, v1, r1, 0)) r2 && subset l1 t2
+          let c = compare v1 v2 in
+          if c = 0 then
+            subset l1 l2 && subset r1 r2
+          else if c < 0 then
+            subset (Node (l1, v1, Empty, 0)) l2 && subset r1 t2
+          else
+            subset (Node (Empty, v1, r1, 0)) r2 && subset l1 t2
     in
     s1==s2 || (subset s1 s2)
 
   let rec filter (compare:'a -> 'a -> int) p = function
     | Empty -> Empty
     | Node(l, v, r, _) ->
-	(* call [p] in the expected left-to-right order *)
-	let l' = filter compare p l in
-	let pv = p v in
-	let r' = filter compare p r in
-	if pv then join compare l' v r' else concat compare l' r'
+        (* call [p] in the expected left-to-right order *)
+        let l' = filter compare p l in
+        let pv = p v in
+        let r' = filter compare p r in
+        if pv then join compare l' v r' else concat compare l' r'
 
   let rec partition (compare:'a -> 'a -> int) p = function
     | Empty -> (Empty, Empty)
     | Node(l, v, r, _) ->
-	(* call [p] in the expected left-to-right order *)
-	let (lt, lf) = partition compare p l in
-	let pv = p v in
-	let (rt, rf) = partition compare p r in
-	if pv
-	then (join compare lt v rt, concat compare lf rf)
-	  else (concat compare lt rt, join compare lf v rf)
+        (* call [p] in the expected left-to-right order *)
+        let (lt, lf) = partition compare p l in
+        let pv = p v in
+        let (rt, rf) = partition compare p r in
+        if pv
+        then (join compare lt v rt, concat compare lf rf)
+          else (concat compare lt rt, join compare lf v rf)
 
 end
 

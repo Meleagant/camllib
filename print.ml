@@ -44,8 +44,8 @@ let array
     let first = ref true in
     Array.iter
       (begin fun e ->
-	if !first then first := false else fprintf fmt sep;
-	print_elt fmt e
+        if !first then first := false else fprintf fmt sep;
+        print_elt fmt e
       end)
       array
     ;
@@ -131,8 +131,8 @@ let weak
       match oelt with
       | None -> ()
       | Some e ->
-	  if !first then first := false else fprintf fmt sep;
-	  fprintf fmt "%i => %a" i print_elt e
+          if !first then first := false else fprintf fmt sep;
+          fprintf fmt "%i => %a" i print_elt e
     done;
     fprintf fmt last;
   end
@@ -193,26 +193,26 @@ let escaped ?(linebreak:char='n') s =
     n := 0;
     for i = 0 to String.length s - 1 do
       begin
-	match String.unsafe_get s i with
-	('"' | '\\') as c ->
-	  Bytes.unsafe_set s' !n '\\'; incr n; Bytes.unsafe_set s' !n c
-	| '\n' ->
-	    Bytes.unsafe_set s' !n '\\'; incr n; Bytes.unsafe_set s' !n linebreak
-	| '\t' ->
-	    Bytes.unsafe_set s' !n '\\'; incr n; Bytes.unsafe_set s' !n 't'
-	| c ->
-	    if is_printable c then
-	      Bytes.unsafe_set s' !n c
-	    else begin
-	      let a = char_code c in
-	      Bytes.unsafe_set s' !n '\\';
-	      incr n;
-	      Bytes.unsafe_set s' !n (char_chr (48 + a / 100));
-	      incr n;
-	      Bytes.unsafe_set s' !n (char_chr (48 + (a / 10) mod 10));
-	      incr n;
-	      Bytes.unsafe_set s' !n (char_chr (48 + a mod 10))
-	    end
+        match String.unsafe_get s i with
+        ('"' | '\\') as c ->
+          Bytes.unsafe_set s' !n '\\'; incr n; Bytes.unsafe_set s' !n c
+        | '\n' ->
+            Bytes.unsafe_set s' !n '\\'; incr n; Bytes.unsafe_set s' !n linebreak
+        | '\t' ->
+            Bytes.unsafe_set s' !n '\\'; incr n; Bytes.unsafe_set s' !n 't'
+        | c ->
+            if is_printable c then
+              Bytes.unsafe_set s' !n c
+            else begin
+              let a = char_code c in
+              Bytes.unsafe_set s' !n '\\';
+              incr n;
+              Bytes.unsafe_set s' !n (char_chr (48 + a / 100));
+              incr n;
+              Bytes.unsafe_set s' !n (char_chr (48 + (a / 10) mod 10));
+              incr n;
+              Bytes.unsafe_set s' !n (char_chr (48 + a mod 10))
+            end
       end;
       incr n
     done;

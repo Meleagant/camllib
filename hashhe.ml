@@ -82,9 +82,9 @@ let map f h =
 let iter f h =
   let rec do_bucket = function
       Empty ->
-	()
+        ()
     | Cons(k, d, rest) ->
-	f k d; do_bucket rest in
+        f k d; do_bucket rest in
   let d = h.data in
   for i = 0 to Array.length d - 1 do
     do_bucket d.(i)
@@ -94,9 +94,9 @@ let fold f h init =
   let rec do_bucket b accu =
     match b with
       Empty ->
-	accu
+        accu
     | Cons(k, d, rest) ->
-	do_bucket rest (f k d accu) in
+        do_bucket rest (f k d accu) in
   let d = h.data in
   let accu = ref init in
   for i = 0 to Array.length d - 1 do
@@ -164,11 +164,11 @@ let resize indexfun h =
     let ndata = Array.make nsize Empty in
     h.data <- ndata;          (* so that indexfun sees the new bucket count *)
     let rec insert_bucket = function
-	Empty -> ()
+        Empty -> ()
       | Cons(key, data, rest) ->
-	  insert_bucket rest; (* preserve original order of elements *)
-	  let nidx = indexfun h key in
-	  ndata.(nidx) <- Cons(key, data, ndata.(nidx)) in
+          insert_bucket rest; (* preserve original order of elements *)
+          let nidx = indexfun h key in
+          ndata.(nidx) <- Cons(key, data, ndata.(nidx)) in
     for i = 0 to osize - 1 do
       insert_bucket odata.(i)
     done
@@ -192,52 +192,52 @@ module Compare = struct
   let remove compare h key =
     let rec remove_bucket = function
      | Empty ->
-	Empty
+        Empty
     | Cons(k, i, next) ->
-	if compare.equal k key
-	then begin h.size <- h.size - 1; next end
-	else Cons(k, i, remove_bucket next) in
+        if compare.equal k key
+        then begin h.size <- h.size - 1; next end
+        else Cons(k, i, remove_bucket next) in
     let i = key_index compare h key in
     h.data.(i) <- remove_bucket h.data.(i)
 
   let rec find_rec compare key = function
     | Empty ->
-	raise Not_found
+        raise Not_found
     | Cons(k, d, rest) ->
-	if compare.equal key k then d else find_rec compare key rest
+        if compare.equal key k then d else find_rec compare key rest
 
   let find compare h key =
     match h.data.(key_index compare h key) with
     | Empty -> raise Not_found
     | Cons(k1, d1, rest1) ->
-	if compare.equal key k1 then d1 else
-	  match rest1 with
-	  | Empty -> raise Not_found
-	  | Cons(k2, d2, rest2) ->
-	      if compare.equal key k2 then d2 else
-		match rest2 with
-		| Empty -> raise Not_found
-		| Cons(k3, d3, rest3) ->
-		    if compare.equal key k3 then d3 else find_rec compare key rest3
+        if compare.equal key k1 then d1 else
+          match rest1 with
+          | Empty -> raise Not_found
+          | Cons(k2, d2, rest2) ->
+              if compare.equal key k2 then d2 else
+                match rest2 with
+                | Empty -> raise Not_found
+                | Cons(k3, d3, rest3) ->
+                    if compare.equal key k3 then d3 else find_rec compare key rest3
 
   let find_all compare h key =
     let rec find_in_bucket = function
       | Empty ->
-	  []
+          []
       | Cons(k, d, rest) ->
-	  if compare.equal k key
-	  then d :: find_in_bucket rest
-	  else find_in_bucket rest in
+          if compare.equal k key
+          then d :: find_in_bucket rest
+          else find_in_bucket rest in
     find_in_bucket h.data.(key_index compare h key)
 
   let replace compare h key info =
     let rec replace_bucket = function
       | Empty ->
-	  raise Not_found
+          raise Not_found
       | Cons(k, i, next) ->
-	  if compare.equal k key
-	  then Cons(k, info, next)
-	  else Cons(k, i, replace_bucket next) in
+          if compare.equal k key
+          then Cons(k, info, next)
+          else Cons(k, i, replace_bucket next) in
     let i = key_index compare h key in
     let l = h.data.(i) in
     try
@@ -250,9 +250,9 @@ module Compare = struct
   let mem compare h key =
     let rec mem_in_bucket = function
       | Empty ->
-	  false
+          false
       | Cons(k, d, rest) ->
-	  compare.equal k key || mem_in_bucket rest in
+          compare.equal k key || mem_in_bucket rest in
     mem_in_bucket h.data.(key_index compare h key)
 end
 
@@ -296,15 +296,15 @@ module type S =
     val length : 'a t -> int
     val stats: 'a t -> statistics
     val print :
-	 ?first:(unit, Format.formatter, unit) format ->
-	 ?sep:(unit, Format.formatter, unit) format ->
-	 ?last:(unit, Format.formatter, unit) format ->
-	 ?firstbind:(unit, Format.formatter, unit) format ->
-	 ?sepbind:(unit, Format.formatter, unit) format ->
-	 ?lastbind:(unit, Format.formatter, unit) format ->
-	 (Format.formatter -> key -> unit) ->
-	 (Format.formatter -> 'a -> unit) ->
-	 Format.formatter -> 'a t -> unit
+         ?first:(unit, Format.formatter, unit) format ->
+         ?sep:(unit, Format.formatter, unit) format ->
+         ?last:(unit, Format.formatter, unit) format ->
+         ?firstbind:(unit, Format.formatter, unit) format ->
+         ?sepbind:(unit, Format.formatter, unit) format ->
+         ?lastbind:(unit, Format.formatter, unit) format ->
+         (Format.formatter -> key -> unit) ->
+         (Format.formatter -> 'a -> unit) ->
+         Format.formatter -> 'a t -> unit
   end
 
 module Make(H: HashedType): (S with type key = H.t and type 'a t = (H.t,'a) hashtbl) =

@@ -20,7 +20,7 @@ let depth (b,ll) =
     | [] -> maxdepth
     | (Atome _)::ll -> depth maxdepth ll
     | (List(_,ll2))::ll ->
-	depth (max maxdepth (1+(depth 1 ll2))) ll
+        depth (max maxdepth (1+(depth 1 ll2))) ll
   in
   depth 1 ll
 
@@ -35,9 +35,9 @@ let rev_append
     match ll1 with
     | [] -> (nb,ll2)
     | (Atome(a) as x1)::ll1 ->
-	rev_append nb ll1 (x1::ll2)
+        rev_append nb ll1 (x1::ll2)
     | List(b,ll)::ll1 ->
-	rev_append nb ll1 (List(rev_append b ll [])::ll2)
+        rev_append nb ll1 (List(rev_append b ll [])::ll2)
   in
   let nb = combine b1 b2 in
   rev_append nb ll1 ll2
@@ -61,9 +61,9 @@ let map fb fa ilist =
     | Atome(a)::ll ->
         Atome(fa flag b a)::(parcours false b ll)
     | List(b2,ll2)::ll ->
-	let b3 = fb b2 in
-	let ll3 = parcours true b2 ll2 in
-	List(b3,ll3)::(parcours false b ll)
+        let b3 = fb b2 in
+        let ll3 = parcours true b2 ll2 in
+        List(b3,ll3)::(parcours false b ll)
   in
   let (b,ll) = ilist in
   (fb b, (parcours false b ll))
@@ -72,11 +72,11 @@ let iter f ilist =
   let rec parcours flag b = function
     | [] -> ()
     | Atome(a)::ll ->
-	f flag b a;
-	parcours false b ll
+        f flag b a;
+        parcours false b ll
     | List(b2,ll2)::ll ->
-	parcours true b2 ll2;
-	parcours false b ll
+        parcours true b2 ll2;
+        parcours false b ll
   in
   let (b,l) = ilist in
   parcours false b l
@@ -85,11 +85,11 @@ let fold_left f res ilist =
   let rec parcours res flag b = function
     | [] -> res
     | Atome(a)::ll ->
-	let nres = f res flag b a in
-	parcours nres false b ll
+        let nres = f res flag b a in
+        parcours nres false b ll
     | List(b2,ll2)::ll ->
-	let nres = parcours res true b2 ll2 in
-	parcours nres false b ll
+        let nres = parcours res true b2 ll2 in
+        parcours nres false b ll
   in
   let (b,l) = ilist in
   parcours res false b l
@@ -98,11 +98,11 @@ let fold_right f ilist res =
   let rec parcours res flag b = function
     | [] -> res
     | Atome(a)::ll ->
-	let nres = parcours res false b ll in
-	f flag b a nres
+        let nres = parcours res false b ll in
+        f flag b a nres
     | List(b2,ll2)::ll ->
-	let nres = parcours res false b ll in
-	parcours nres true b2 ll2
+        let nres = parcours res false b ll in
+        parcours nres true b2 ll2
   in
   let (b,l) = ilist in
   parcours res false b l
@@ -128,19 +128,19 @@ let flatten ?(depth=1) ilist
   let rec rev_flatten (res:('a,'b) el list) (cdepth:int) = function
     | [] -> res
     | x::l ->
-	let nres = begin match x with
-	| Atome(_) -> x::res
-	| List(b,ll) ->
-	    if cdepth < depth then
-	      let ll2 = rev_flatten [] (cdepth+1) ll in
-	      (List(b,ll2))::res
-	    else
-	      fold_left
-		(fun res flag b a -> Atome(a)::res)
-		res (b,ll)
-	end
-	in
-	rev_flatten nres cdepth l
+        let nres = begin match x with
+        | Atome(_) -> x::res
+        | List(b,ll) ->
+            if cdepth < depth then
+              let ll2 = rev_flatten [] (cdepth+1) ll in
+              (List(b,ll2))::res
+            else
+              fold_left
+                (fun res flag b a -> Atome(a)::res)
+                res (b,ll)
+        end
+        in
+        rev_flatten nres cdepth l
   in
   let (b,ll) = ilist in
   let res = rev_flatten [] 1 ll in
@@ -155,9 +155,9 @@ let print
   let rec print_elt fmt ll = match ll with
     | Atome(a) -> print_atom fmt a
     | List(b,ll) ->
-	Print.list ?first ?sep ?last print_elt fmt ll;
-	Format.fprintf fmt firstexp;
-	print_exp fmt b;
-	Format.fprintf fmt lastexp
+        Print.list ?first ?sep ?last print_elt fmt ll;
+        Format.fprintf fmt firstexp;
+        print_exp fmt b;
+        Format.fprintf fmt lastexp
   in
   print_elt fmt (List ilist)

@@ -32,7 +32,7 @@ module Hash: (Hashtbl.S with type key=t)
 module Set: (Sette.S with type elt=t)
   (** Sets on type [t] *)
 module Map: (Mappe.S with type key=t
-		     and module Setkey=Set)
+                     and module Setkey=Set)
   (** Maps on type [t] *)
 
 val print_set: Format.formatter -> Set.t -> unit

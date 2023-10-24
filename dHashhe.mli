@@ -95,4 +95,4 @@ end
 (** Functor building an implementation of the DHashtbl structure
    given two hashtables *)
 module Make(P : Param) : (S with module HashX = P.HashX
-			    and module HashY = P.HashY)
+                            and module HashY = P.HashY)

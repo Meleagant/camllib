@@ -133,7 +133,7 @@ module type S = sig
 end
 
 module Make(T : T) : (S with type vertex=T.MapV.key
-			and module SetV=T.MapV.Setkey
-			and module SetE=T.MapE.Setkey
-			and module MapV=T.MapV
-			and module MapE=T.MapE)
+                        and module SetV=T.MapV.Setkey
+                        and module SetE=T.MapE.Setkey
+                        and module MapV=T.MapV
+                        and module MapE=T.MapE)

@@ -1,7 +1,7 @@
 (** Union-find Abstract Data Types *)
 
 type 'a t = ('a,'a) Hashtbl.t
-	(** The type of the sets of all elements *)
+        (** The type of the sets of all elements *)
 
 let create n = Hashtbl.create n
 
@@ -18,21 +18,21 @@ let find tbl element =
     else begin
       (* The find function *)
       let rec findrec element =
-	let parent = Hashtbl.find tbl element in
-	if parent=element then
-	  element
-	else
-	  findrec parent
+        let parent = Hashtbl.find tbl element in
+        if parent=element then
+          element
+        else
+          findrec parent
       in
       (* The path compression function *)
       let rec compressrec res element =
-	let parent = Hashtbl.find tbl element in
-	if parent = element then
-	  ()
-	else begin
-	  Hashtbl.replace tbl element res;
-	  compressrec res parent
-	end
+        let parent = Hashtbl.find tbl element in
+        if parent = element then
+          ()
+        else begin
+          Hashtbl.replace tbl element res;
+          compressrec res parent
+        end
       in
       (* The algorithm *)
       let res = findrec parent2 in

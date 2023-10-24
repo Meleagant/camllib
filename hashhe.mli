@@ -118,15 +118,15 @@ val length : ('a, 'b) t -> int
 type statistics = Hashtbl.statistics = {
   num_bindings: int;
     (** Number of bindings present in the table.
-	Same value as returned by {!Hashtbl.length}. *)
+        Same value as returned by {!Hashtbl.length}. *)
   num_buckets: int;
     (** Number of buckets in the table. *)
   max_bucket_length: int;
     (** Maximal number of bindings per bucket. *)
   bucket_histogram: int array
     (** Histogram of bucket sizes.  This array [histo] has
-	length [max_bucket_length + 1].  The value of
-	[histo.(i)] is the number of buckets whose size is [i]. *)
+        length [max_bucket_length + 1].  The value of
+        [histo.(i)] is the number of buckets whose size is [i]. *)
 }
 
 val stats : ('a, 'b) t -> statistics
@@ -156,16 +156,16 @@ module type HashedType =
       (** The equality predicate used to compare keys. *)
     val hash : t -> int
       (** A hashing function on keys. It must be such that if two keys are
-	  equal according to [equal], then they have identical hash values
-	  as computed by [hash].
-	  Examples: suitable ([equal], [hash]) pairs for arbitrary key
-	  types include
-	  ([(=)], {!hash}) for comparing objects by structure,
-	  ([(fun x y -> compare x y = 0)], {!hash})
-	  for comparing objects by structure and handling {!Stdlib.nan}
-	  correctly, and
-	  ([(==)], {!hash}) for comparing objects by addresses
-	  (e.g. for or cyclic keys). *)
+          equal according to [equal], then they have identical hash values
+          as computed by [hash].
+          Examples: suitable ([equal], [hash]) pairs for arbitrary key
+          types include
+          ([(=)], {!hash}) for comparing objects by structure,
+          ([(fun x y -> compare x y = 0)], {!hash})
+          for comparing objects by structure and handling {!Stdlib.nan}
+          correctly, and
+          ([(==)], {!hash}) for comparing objects by addresses
+          (e.g. for or cyclic keys). *)
    end
 (** The input signature of the functor {!Make}. *)
 
@@ -191,15 +191,15 @@ module type S =
     val length : 'a t -> int
     val stats : 'a t -> statistics
     val print :
-	 ?first:(unit, Format.formatter, unit) format ->
-	 ?sep:(unit, Format.formatter, unit) format ->
-	 ?last:(unit, Format.formatter, unit) format ->
-	 ?firstbind:(unit, Format.formatter, unit) format ->
-	 ?sepbind:(unit, Format.formatter, unit) format ->
-	 ?lastbind:(unit, Format.formatter, unit) format ->
-	 (Format.formatter -> key -> unit) ->
-	 (Format.formatter -> 'a -> unit) ->
-	 Format.formatter -> 'a t -> unit
+         ?first:(unit, Format.formatter, unit) format ->
+         ?sep:(unit, Format.formatter, unit) format ->
+         ?last:(unit, Format.formatter, unit) format ->
+         ?firstbind:(unit, Format.formatter, unit) format ->
+         ?sepbind:(unit, Format.formatter, unit) format ->
+         ?lastbind:(unit, Format.formatter, unit) format ->
+         (Format.formatter -> key -> unit) ->
+         (Format.formatter -> 'a -> unit) ->
+         Format.formatter -> 'a t -> unit
   end
 (** The output signature of the functor {!Make}. *)
 

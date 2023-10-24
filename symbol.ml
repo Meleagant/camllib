@@ -66,13 +66,13 @@ let print_map print fmt map =
     let isfirst = ref true in
     Map.iter
       (begin fun t x ->
-	if !isfirst then begin
-	  fprintf fmt "(%s,%a)" (to_string t) print x;
-	  isfirst := false
-	end
-	else begin
-	  fprintf fmt ";@ (%s,%a)" (to_string t) print x
-	end
+        if !isfirst then begin
+          fprintf fmt "(%s,%a)" (to_string t) print x;
+          isfirst := false
+        end
+        else begin
+          fprintf fmt ";@ (%s,%a)" (to_string t) print x
+        end
       end)
       map;
     fprintf fmt "@] }"
@@ -93,13 +93,13 @@ let print_hash print fmt tbl =
     let isfirst = ref true in
     Hash.iter
       (begin fun t x ->
-	if !isfirst then begin
-	  fprintf fmt "(%s,%a)" (to_string t) print x;
-	  isfirst := false
-	end
-	else begin
-	  fprintf fmt ";@ (%s,%a)" (to_string t) print x
-	end
+        if !isfirst then begin
+          fprintf fmt "(%s,%a)" (to_string t) print x;
+          isfirst := false
+        end
+        else begin
+          fprintf fmt ";@ (%s,%a)" (to_string t) print x
+        end
       end)
       tbl;
     fprintf fmt "@] }"

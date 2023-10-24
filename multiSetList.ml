@@ -64,10 +64,10 @@ let union_set ta tb =
     | ([],_) -> of_set (SetList.of_list tb)
     | (_,[]) -> ta
     | (((xa,na) as xna)::la, (xb::lb)) ->
-	let drp = compare xa xb in
-	if drp > 0 then (xb,1)::(union_set ta lb)
-	else if drp = 0 then (xa,na+1)::(union_set la lb)
-	else xna::(union_set la tb)
+        let drp = compare xa xb in
+        if drp > 0 then (xb,1)::(union_set ta lb)
+        else if drp = 0 then (xa,na+1)::(union_set la lb)
+        else xna::(union_set la tb)
   in
   union_set ta (SetList.to_list tb)
 let inter_set ta tb =
@@ -135,32 +135,32 @@ let min = function
   | [] -> raise Not_found
   | xn :: l ->
       List.fold_left
-	(fun ((_,mult) as res) ((_,n) as xn) -> if n < mult then xn else res)
-	xn l
+        (fun ((_,mult) as res) ((_,n) as xn) -> if n < mult then xn else res)
+        xn l
 let max = function
   | [] -> raise Not_found
   | xn :: l ->
       List.fold_left
-	(fun ((_,mult) as res) ((_,n) as xn) -> if n > mult then xn else res)
-	xn l
+        (fun ((_,mult) as res) ((_,n) as xn) -> if n > mult then xn else res)
+        xn l
 let mins = function
   | [] -> raise Not_found
   | (x,n) :: l ->
       List.fold_left
-	(fun ((set,mult) as res) (x,n) ->
-	  if n < mult then (SetList.singleton x,n)
-	  else if n = mult then (SetList.add x set, mult)
-	  else res)
-	(SetList.singleton x,n) l
+        (fun ((set,mult) as res) (x,n) ->
+          if n < mult then (SetList.singleton x,n)
+          else if n = mult then (SetList.add x set, mult)
+          else res)
+        (SetList.singleton x,n) l
 let maxs = function
   | [] -> raise Not_found
   | (x,n) :: l ->
       List.fold_left
-	(fun ((set,mult) as res) (x,n) ->
-	  if n > mult then (SetList.singleton x,n)
-	  else if n = mult then (SetList.add x set, mult)
-	  else res)
-	(SetList.singleton x,n) l
+        (fun ((set,mult) as res) (x,n) ->
+          if n > mult then (SetList.singleton x,n)
+          else if n = mult then (SetList.add x set, mult)
+          else res)
+        (SetList.singleton x,n) l
 let choose = min_elt
 
 let compare =
@@ -243,25 +243,25 @@ module Make(Ord: Set.OrderedType) = struct
   let rec mem elt = function
     | [] -> false
     | (x,_)::l ->
-	let drp = Ord.compare x elt in
-	if drp > 0 then false
-	else if drp=0 then true
-	else mem elt l
+        let drp = Ord.compare x elt in
+        if drp > 0 then false
+        else if drp=0 then true
+        else mem elt l
   let rec mult elt = function
     | [] -> raise Not_found
     | (x,n)::l ->
-	let drp = Ord.compare x elt in
-	if drp > 0 then raise Not_found
-	else if drp=0 then n
-	else mult elt l
+        let drp = Ord.compare x elt in
+        if drp > 0 then raise Not_found
+        else if drp=0 then n
+        else mult elt l
   let singleton = singleton
   let rec add ((elt,m) as em) = function
     | [] -> [em]
     | (((x,n) as xn)::l) as t ->
-	let drp = Ord.compare x elt in
-	if drp > 0 then em::t
-	else if drp=0 then (x,n+m)::l
-	else xn::(add em l)
+        let drp = Ord.compare x elt in
+        if drp > 0 then em::t
+        else if drp=0 then (x,n+m)::l
+        else xn::(add em l)
   let rec remove ((elt,m) as em) = function
   | [] -> []
   | (((x,n) as xn)::l) as t ->
@@ -291,27 +291,27 @@ module Make(Ord: Set.OrderedType) = struct
       let drp = Ord.compare xa xb in
       if drp > 0 then diff ta lb
       else if drp = 0 then
-	if na > nb then (xa,na-nb)::(diff la lb) else diff la lb
+        if na > nb then (xa,na-nb)::(diff la lb) else diff la lb
       else xna :: (diff la tb)
   let union_set ta tb =
     let rec union_set ta tb = match (ta,tb) with
       | ([],_) -> of_set (SetList.of_list tb)
       | (_,[]) -> ta
       | (((xa,na) as xna)::la, (xb::lb)) ->
-	  let drp = Ord.compare xa xb in
-	  if drp > 0 then (xb,1)::(union_set ta lb)
-	  else if drp = 0 then (xa,na+1)::(union_set la lb)
-	else xna::(union_set la tb)
+          let drp = Ord.compare xa xb in
+          if drp > 0 then (xb,1)::(union_set ta lb)
+          else if drp = 0 then (xa,na+1)::(union_set la lb)
+        else xna::(union_set la tb)
     in
     union_set ta (SetList.to_list tb)
   let inter_set ta tb =
     let rec inter_set ta tb = match (ta,tb) with
     | ([],_) | (_,[]) -> []
     | (((xa,na) as xna)::la,xb::lb) ->
-	let drp = Ord.compare xa xb in
-	if drp > 0 then inter_set ta lb
-	else if drp = 0 then xna::(inter_set la lb)
-	else inter_set la tb
+        let drp = Ord.compare xa xb in
+        if drp > 0 then inter_set ta lb
+        else if drp = 0 then xna::(inter_set la lb)
+        else inter_set la tb
     in
     inter_set ta (SetList.to_list tb)
   let diff_set ta tb =
@@ -319,10 +319,10 @@ module Make(Ord: Set.OrderedType) = struct
     | ([],_) -> []
     | (_,[]) -> ta
     | (((xa,na) as xna)::la,xb::lb) ->
-	let drp = Ord.compare xa xb in
-	if drp > 0 then diff_set ta lb
-	else if drp = 0 then diff_set la lb
-	else xna :: (diff_set la tb)
+        let drp = Ord.compare xa xb in
+        if drp > 0 then diff_set ta lb
+        else if drp = 0 then diff_set la lb
+        else xna :: (diff_set la tb)
     in
     diff_set ta (SetList.to_list tb)
   let rec equal ta tb =  match (ta,tb) with
@@ -359,9 +359,9 @@ module Make(Ord: Set.OrderedType) = struct
     | ([],_) -> -1
     | (_,[]) -> 1
     | ((xa,na)::la,(xb,nb)::lb) ->
-	let drp = Ord.compare xa xb in
-	if drp = 0 then if na=nb then cmp la lb else na-nb
-	else drp
+        let drp = Ord.compare xa xb in
+        if drp = 0 then if na=nb then cmp la lb else na-nb
+        else drp
     in cmp
   let print = print
 end

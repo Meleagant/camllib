@@ -116,16 +116,16 @@ module type S =
   sig
     type elt
     (** The type of the set elements. *)
-	
+        
     type t
     (** The type of sets. *)
-	
+        
     val repr : t -> elt set
     val obj : elt set -> t
 
     module Ord : (Set.OrderedType with type t=elt)
     (** The ordering module used for this set module. *)
-	
+        
     val empty: t
     (** The empty set. *)
 
@@ -230,7 +230,7 @@ end
 (** Functor building an implementation of the set structure
    given a totally ordered type. *)
 module Make(Ord : Set.OrderedType) : S with type elt = Ord.t
-				       and module Ord=Ord
+                                       and module Ord=Ord
 
 module Compare : sig
   val split : ('a -> 'a -> int) -> 'a -> 'a t -> 'a t * bool * 'a t
