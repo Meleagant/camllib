@@ -24,8 +24,7 @@ jobs:
       - name: Build
         run: opam exec -- dune build @doc
 
-      -
-        name: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
         uses: crazy-max/ghaction-github-pages@v4
         with:
           target_branch: gh-pages
