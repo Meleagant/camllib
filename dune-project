@@ -19,7 +19,7 @@
  (name camllib)
  (synopsis "Utility Library")
  (description "Provide implementation of various data structures")
- (depends ocaml dune)
+ (depends ocaml dune odoc)
  (tags
   ("graph" "list" "map" "hashtable")))
 

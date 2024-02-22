@@ -13,7 +13,7 @@ bug-reports: "https://github.com/meleagant/camllib/issues"
 depends: [
   "ocaml"
   "dune" {>= "3.7"}
-  "odoc" {with-doc}
+  "odoc"
 ]
 build: [
   ["dune" "subst"] {dev}
